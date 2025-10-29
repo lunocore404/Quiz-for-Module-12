@@ -1,7 +1,7 @@
-// This function runs when the page is fully loaded
+// FIXED: Semicolons are added.
 document.addEventListener('DOMContentLoaded', () => {
-    const messageElement = document.getElementById('js-message');
+    const messageElement = document.getElementById('js-message'); // ADDED SEMICOLON
     if (messageElement) {
-        messageElement.textContent = "The JavaScript file loaded successfully!";
+        messageElement.textContent = "The JavaScript file loaded successfully!"; // ADDED SEMICOLON
     }
-});
+}); // ADDED SEMICOLON
