@@ -1,38 +1,37 @@
-name: CD - Deploy to GitHub Pages
+name: Deploy Static Site to GitHub Pages
 
-# This workflow is triggered by a successful run of the 'build.yml' workflow
 on:
-  workflow_run:
-    workflows: ["CI - Quality Check and Build Artifact"]
-    types:
-      - completed
-      
-# FIX #1: Grant necessary permissions for deployment
+  push:
+    branches:
+      - main
+
 permissions:
-  contents: write 
-  pages: write    
-  id-token: write 
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  # This job will only run if the triggering workflow_run was successful
   deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
-      # Step 1: Download the artifact uploaded by the build job
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          # Use run_id from the triggering workflow_run
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ github.event.workflow_run.id }}
-          name: website-files
-          path: .
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # Step 2: Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: . # Deploy the files downloaded into the root directory
+          path: .  # your index.html, script.js, style.css are in root
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: deploy
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
