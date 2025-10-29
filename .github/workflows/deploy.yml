@@ -1,0 +1,38 @@
+name: CD - Deploy to GitHub Pages
+
+# This workflow is triggered by a successful run of the 'build.yml' workflow
+on:
+  workflow_run:
+    workflows: ["CI - Quality Check and Build Artifact"]
+    types:
+      - completed
+      
+# FIX #1: Grant necessary permissions for deployment
+permissions:
+  contents: write 
+  pages: write    
+  id-token: write 
+
+jobs:
+  # This job will only run if the triggering workflow_run was successful
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      # Step 1: Download the artifact uploaded by the build job
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          # Use run_id from the triggering workflow_run
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+          name: website-files
+          path: .
+
+      # Step 2: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: . # Deploy the files downloaded into the root directory
