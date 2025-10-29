@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 1em 0;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.screenshot-container {
+    text-align: center;
+    margin: 20px 0;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.screenshot-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+#js-message {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e6f7ff;
+    border: 1px solid #b3e0ff;
+    color: #0059b3;
+    text-align: center;
+    font-weight: bold;
+}
