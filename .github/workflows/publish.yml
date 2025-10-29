@@ -20,7 +20,10 @@ jobs:
 
       # 1. Automated Quality Check: JS Linter (Ensures semicolons are present)
       - name: Install Linter Dependencies
-        run: npm install eslint globals --global
+        # Create a package.json file to list dependencies
+        run: |
+          npm init -y
+          npm install eslint globals --save-dev
 
       - name: Run JS Linter Check
         id: linter
