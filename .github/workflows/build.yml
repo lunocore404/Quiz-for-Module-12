@@ -9,7 +9,8 @@ on:
 # Permissions only needed for checkout and artifact upload/download
 permissions:
   contents: read 
-  actions: read 
+  actions: read
+  id-token: write
 
 jobs:
   build:
