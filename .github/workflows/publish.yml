@@ -1,0 +1,46 @@
+name: Deploy Static Site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Check if your primary branch is 'main' or 'master'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 1. Automated Quality Check: JS Linter (Ensures semicolons are present)
+      - name: Install eslint
+        run: npm install eslint --global
+
+      - name: Run JS Linter Check
+        id: linter
+        run: |
+          # Create a temporary config file to enforce the 'semi' rule
+          echo '{ "rules": { "semi": ["error", "always"] } }' > .eslintrc.json
+          # Lint the script.js file. The workflow will FAIL if semicolons are missing.
+          eslint script.js
+        continue-on-error: true
+
+      - name: Check Linting Result and Fail if Needed
+        if: steps.linter.outcome == 'failure'
+        run: |
+          echo "::error file=script.js::JavaScript linting failed! Fix errors before deploying."
+          exit 1 # Explicitly fail the build
+
+      # 2. Deployment Step (Only runs if the Linter step passes)
+      - name: Deploy to GitHub Pages
+        if: steps.linter.outcome == 'success'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: . # Tells the action to publish all files in the root folder
