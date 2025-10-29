@@ -1,0 +1,61 @@
+name: CI - Quality Check and Build Artifact
+
+on:
+  push:
+    branches:
+      - main # Your primary branch
+  workflow_dispatch: # Allows manual triggering
+
+# Permissions only needed for checkout and artifact upload/download
+permissions:
+  contents: read 
+  actions: read 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Install dependencies locally to resolve 'globals' module error
+      - name: Install Linter Dependencies
+        run: |
+          npm init -y
+          npm install eslint globals --save-dev
+
+      # 1. Automated Quality Check: JS Linter
+      - name: Run JS Linter Check
+        id: linter
+        run: |
+          # Create the new config file format (eslint.config.js) for v9+
+          echo 'import globals from "globals";' > eslint.config.js
+          echo 'export default [' >> eslint.config.js
+          echo '  {languageOptions: { globals: globals.browser }},' >> eslint.config.js
+          echo '  {rules: { "semi": ["error", "always"] }},' >> eslint.config.js
+          echo '  {ignores: ["**/.eslintrc.json"]}' >> eslint.config.js
+          echo '];' >> eslint.config.js
+
+          # Run the linter using the locally installed executable
+          ./node_modules/.bin/eslint script.js
+        continue-on-error: true
+
+      - name: Check Linting Result and Fail if Needed
+        if: steps.linter.outcome == 'failure'
+        run: |
+          echo "::error file=script.js::JavaScript linting failed! Fix errors before deploying."
+          exit 1 
+
+      # Final step: Upload files for use in the deployment job
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-files
+          path: .
+          retention-days: 1
