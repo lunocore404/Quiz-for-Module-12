@@ -4,4 +4,4 @@ document.addEventListener('DOMContentLoaded', () => {
     if (messageElement) {
         messageElement.textContent = "The JavaScript file loaded successfully!";
     }
-}); // <-- Ensure this semicolon is present
+});
