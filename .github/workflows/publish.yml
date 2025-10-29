@@ -25,9 +25,15 @@ jobs:
       - name: Run JS Linter Check
         id: linter
         run: |
-          # Create a temporary config file to enforce the 'semi' rule
-          echo '{ "rules": { "semi": ["error", "always"] } }' > .eslintrc.json
-          # Lint the script.js file. The workflow will FAIL if semicolons are missing.
+          # Create the new temporary config file format (eslint.config.js) for v9+
+          echo 'import globals from "globals";' > eslint.config.js
+          echo 'export default [' >> eslint.config.js
+          echo '  {languageOptions: { globals: globals.browser }},' >> eslint.config.js
+          echo '  {rules: { "semi": ["error", "always"] }},' >> eslint.config.js
+          echo '  {ignores: ["**/.eslintrc.json"]}' >> eslint.config.js
+          echo '];' >> eslint.config.js
+
+          # Lint the script.js file using the new config.
           eslint script.js
         continue-on-error: true
 
