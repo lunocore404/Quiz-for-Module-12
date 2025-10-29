@@ -37,7 +37,7 @@ jobs:
           echo '];' >> eslint.config.js
 
           # Lint the script.js file using the new config.
-          eslint script.js
+          ./node_modules/.bin/eslint script.js
         continue-on-error: true
 
       - name: Check Linting Result and Fail if Needed
