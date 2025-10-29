@@ -19,8 +19,8 @@ jobs:
           node-version: '20'
 
       # 1. Automated Quality Check: JS Linter (Ensures semicolons are present)
-      - name: Install eslint
-        run: npm install eslint --global
+      - name: Install Linter Dependencies
+        run: npm install eslint globals --global
 
       - name: Run JS Linter Check
         id: linter
