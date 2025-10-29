@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - main # Check if your primary branch is 'main' or 'master'
-
+permissions:
+  contents: write # Grants the GITHUB_TOKEN permission to push to gh-pages branch
+  pages: write    # Grants permission to manage Pages deployment (Best practice for modern GH Pages)
+  id-token: write # Required for deployment when using OIDC (OpenID Connect) for secure token access
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
