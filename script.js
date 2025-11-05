@@ -1,24 +1,28 @@
-// ✅ Simple message on load
 document.addEventListener('DOMContentLoaded', () => {
+  // Simple message indicator
   const messageElement = document.getElementById('js-message');
   if (messageElement) {
     messageElement.textContent = "The JavaScript file loaded successfully!";
   }
+
+  // 👹 Activate Ugly Mode
+  activateUglyMode();
 });
 
-// ✅ Ugly Mode: Chaos on page load
-window.addEventListener("load", () => {
-  // Invert the entire site’s colors
+function activateUglyMode() {
+  console.log("💀 Activating Ugly Mode...");
+
+  // Invert colors
   document.body.style.filter = "invert(1) hue-rotate(180deg)";
   document.body.style.transition = "filter 0.8s ease";
 
-  // Shake all text randomly for 3 seconds
+  // Make all text shake
   const elements = document.querySelectorAll("*");
   elements.forEach(el => {
     el.style.animation = "shake 0.2s infinite";
   });
 
-  // Add confetti-like random Comic Sans emojis
+  // Spawn flying Comic Sans emojis
   for (let i = 0; i < 30; i++) {
     const emoji = document.createElement("div");
     emoji.textContent = ["💩", "🤡", "🌀", "😵‍💫", "✨"][Math.floor(Math.random() * 5)];
@@ -29,13 +33,13 @@ window.addEventListener("load", () => {
       fontSize: Math.random() * 40 + 20 + "px",
       fontFamily: "Comic Sans MS",
       transform: `rotate(${Math.random() * 360}deg)`,
-      animation: "fall 3s linear infinite",
+      animation: "fall 5s linear infinite",
       zIndex: "9999",
     });
     document.body.appendChild(emoji);
   }
 
-  // Keyframes for the chaos
+  // Define animations
   const style = document.createElement("style");
   style.innerHTML = `
     @keyframes shake {
@@ -51,6 +55,4 @@ window.addEventListener("load", () => {
     }
   `;
   document.head.appendChild(style);
-
-  console.log("💩 Ugly mode activated!");
-});
+}
