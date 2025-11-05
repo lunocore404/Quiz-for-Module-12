@@ -1,13 +1,13 @@
+// ✅ Simple message on load
 document.addEventListener('DOMContentLoaded', () => {
-    const messageElement = document.getElementById('js-message');
-    if (messageElement) {
-        messageElement.textContent = "The JavaScript file loaded successfully!";
-    }
-    window.addEventListener("load", () => {
-
+  const messageElement = document.getElementById('js-message');
+  if (messageElement) {
+    messageElement.textContent = "The JavaScript file loaded successfully!";
+  }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+// ✅ Ugly Mode: Chaos on page load
+window.addEventListener("load", () => {
   // Invert the entire site’s colors
   document.body.style.filter = "invert(1) hue-rotate(180deg)";
   document.body.style.transition = "filter 0.8s ease";
@@ -54,4 +54,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
   console.log("💩 Ugly mode activated!");
 });
-
