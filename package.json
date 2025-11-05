@@ -1,0 +1,12 @@
+{
+  "name": "ugliest-ui-project",
+  "version": "1.0.0",
+  "description": "A funny ugly UI project with JS chaos effect",
+  "main": "script.js",
+  "scripts": {
+    "lint": "echo 'Pretend linting passed!'",
+    "test": "node __tests__/uglyMode.test.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
