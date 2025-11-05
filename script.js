@@ -4,51 +4,54 @@ document.addEventListener('DOMContentLoaded', () => {
         messageElement.textContent = "The JavaScript file loaded successfully!";
     }
     window.addEventListener("load", () => {
-  // Flashy ugly intro
-  const msg = document.createElement("div");
-  msg.innerHTML = "😱 WELCOME TO THE UGLIEST QUIZ EVER!!! 😵‍💫";
-  msg.style.position = "fixed";
-  msg.style.top = "50%";
-  msg.style.left = "50%";
-  msg.style.transform = "translate(-50%, -50%) rotate(0deg)";
-  msg.style.fontFamily = "Comic Sans MS, Papyrus, cursive";
-  msg.style.fontSize = "3rem";
-  msg.style.fontWeight = "bold";
-  msg.style.padding = "20px";
-  msg.style.background = "linear-gradient(45deg, lime, hotpink, cyan, yellow)";
-  msg.style.color = "black";
-  msg.style.border = "10px ridge red";
-  msg.style.textShadow = "2px 2px 5px magenta";
-  msg.style.zIndex = "9999";
-  msg.style.animation = "spinAndFlash 2s infinite linear";
-
-  document.body.appendChild(msg);
-
-  // Random color chaos in background
-  let interval = setInterval(() => {
-    document.body.style.backgroundColor =
-      "#" + Math.floor(Math.random() * 16777215).toString(16);
-  }, 200);
-
-  // End chaos after 4 seconds
-  setTimeout(() => {
-    clearInterval(interval);
-    msg.remove();
-    document.body.style.backgroundColor = "white"; // reset
-  }, 4000);
-});
-
-// add ugly spin animation
-const style = document.createElement("style");
-style.textContent = `
-@keyframes spinAndFlash {
-  0% { transform: translate(-50%, -50%) rotate(0deg); color: red; }
-  25% { transform: translate(-50%, -50%) rotate(90deg); color: yellow; }
-  50% { transform: translate(-50%, -50%) rotate(180deg); color: lime; }
-  75% { transform: translate(-50%, -50%) rotate(270deg); color: cyan; }
-  100% { transform: translate(-50%, -50%) rotate(360deg); color: magenta; }
-}
-`;
-document.head.appendChild(style);
 
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Invert the entire site’s colors
+  document.body.style.filter = "invert(1) hue-rotate(180deg)";
+  document.body.style.transition = "filter 0.8s ease";
+
+  // Shake all text randomly for 3 seconds
+  const elements = document.querySelectorAll("*");
+  elements.forEach(el => {
+    el.style.animation = "shake 0.2s infinite";
+  });
+
+  // Add confetti-like random Comic Sans emojis
+  for (let i = 0; i < 30; i++) {
+    const emoji = document.createElement("div");
+    emoji.textContent = ["💩", "🤡", "🌀", "😵‍💫", "✨"][Math.floor(Math.random() * 5)];
+    Object.assign(emoji.style, {
+      position: "fixed",
+      top: Math.random() * 100 + "vh",
+      left: Math.random() * 100 + "vw",
+      fontSize: Math.random() * 40 + 20 + "px",
+      fontFamily: "Comic Sans MS",
+      transform: `rotate(${Math.random() * 360}deg)`,
+      animation: "fall 3s linear infinite",
+      zIndex: "9999",
+    });
+    document.body.appendChild(emoji);
+  }
+
+  // Keyframes for the chaos
+  const style = document.createElement("style");
+  style.innerHTML = `
+    @keyframes shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      25% { transform: translate(-1px, -2px) rotate(-1deg); }
+      50% { transform: translate(-3px, 0px) rotate(1deg); }
+      75% { transform: translate(3px, 2px) rotate(0deg); }
+      100% { transform: translate(1px, -1px) rotate(1deg); }
+    }
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+
+  console.log("💩 Ugly mode activated!");
+});
+
