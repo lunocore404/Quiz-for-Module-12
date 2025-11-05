@@ -4,9 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
     messageElement.textContent = "✅ JavaScript loaded successfully!";
   }
 
-  // Button event
+  // Button event listener
   const uglyButton = document.getElementById('uglyButton');
-  uglyButton.addEventListener('click', activateUglyMode);
+  if (uglyButton) {
+    uglyButton.addEventListener('click', activateUglyMode);
+  }
 });
 
 function activateUglyMode() {
