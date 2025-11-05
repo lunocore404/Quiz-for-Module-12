@@ -1,29 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Simple message indicator
   const messageElement = document.getElementById('js-message');
   if (messageElement) {
-    messageElement.textContent = "The JavaScript file loaded successfully!";
+    messageElement.textContent = "✅ JavaScript loaded successfully!";
   }
 
-  // 👹 Activate Ugly Mode
-  activateUglyMode();
+  // Button event
+  const uglyButton = document.getElementById('uglyButton');
+  uglyButton.addEventListener('click', activateUglyMode);
 });
 
 function activateUglyMode() {
   console.log("💀 Activating Ugly Mode...");
 
-  // Invert colors
+  // Invert colors & shake everything
   document.body.style.filter = "invert(1) hue-rotate(180deg)";
   document.body.style.transition = "filter 0.8s ease";
 
-  // Make all text shake
   const elements = document.querySelectorAll("*");
   elements.forEach(el => {
-    el.style.animation = "shake 0.2s infinite";
+    el.style.animation = "shake 0.3s infinite";
+    el.style.fontFamily = "Comic Sans MS";
   });
 
-  // Spawn flying Comic Sans emojis
-  for (let i = 0; i < 30; i++) {
+  // Spawn flying emojis
+  for (let i = 0; i < 25; i++) {
     const emoji = document.createElement("div");
     emoji.textContent = ["💩", "🤡", "🌀", "😵‍💫", "✨"][Math.floor(Math.random() * 5)];
     Object.assign(emoji.style, {
@@ -31,15 +31,14 @@ function activateUglyMode() {
       top: Math.random() * 100 + "vh",
       left: Math.random() * 100 + "vw",
       fontSize: Math.random() * 40 + 20 + "px",
-      fontFamily: "Comic Sans MS",
-      transform: `rotate(${Math.random() * 360}deg)`,
-      animation: "fall 5s linear infinite",
+      animation: "fall 6s linear infinite",
       zIndex: "9999",
+      pointerEvents: "none",
     });
     document.body.appendChild(emoji);
   }
 
-  // Define animations
+  // Add shake and fall animations
   const style = document.createElement("style");
   style.innerHTML = `
     @keyframes shake {
@@ -49,6 +48,7 @@ function activateUglyMode() {
       75% { transform: translate(3px, 2px) rotate(0deg); }
       100% { transform: translate(1px, -1px) rotate(1deg); }
     }
+
     @keyframes fall {
       0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
       100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
